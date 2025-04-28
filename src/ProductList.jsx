@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./ProductList.css";
 import CartItem from "./CartItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "./CartSlice";
 function ProductList({ onHomeClick }) {
   const dispatch = useDispatch();
   const [showCart, setShowCart] = useState(false);
   const [addedToCart, setAddedToCart] = useState({});
+  // Retrieve all cart items from Redux store
+  const cartItems = useSelector((state) => state.cart.items);
+  const getProductQuantity = (productName) => {
+    const item = cartItems.find((item) => item.name === productName);
+    return item ? item.quantity : 0;
+  };
+
   const plantsArray = [
     {
       category: "Air Purifying Plants",
